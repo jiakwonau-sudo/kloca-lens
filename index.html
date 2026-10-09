@@ -66,6 +66,9 @@
   .suggest div { padding:11px 14px; font-weight:700; font-size:14px; border-bottom:1px solid #eee5d5; cursor:pointer; display:flex; align-items:center; gap:10px; }
   .suggest div:last-child { border-bottom:0; }
   .note { margin:14px 18px 0; font-size:12px; color:#8a8272; text-align:center; }
+  .chips { display:flex; flex-wrap:wrap; gap:9px; margin:8px 18px 0; }
+  .chip { padding:10px 15px; font-size:13.5px; display:flex; align-items:center; gap:6px; }
+  .chip .ce { font-size:17px; }
   /* result */
   .verdict { margin:6px 18px 0; padding:12px; text-align:center; font-weight:900; font-size:16px; transform:rotate(1.1deg); }
   .v-ok { background:var(--mint); } .v-mid { background:var(--lemon); } .v-warn { background:var(--orange); }
@@ -154,7 +157,9 @@
     </div>
     <button class="pill yes" id="btnYes">맞아요 →</button>
     <button class="pill retake" data-go="s-scan">📷 다시 찍기</button>
-    <div class="sec-h">아니면 직접 입력</div>
+    <div class="sec-h">빠른 선택 <span class="tag">tap</span></div>
+    <div class="chips" id="quickChips"></div>
+    <div class="sec-h">직접 입력</div>
     <div class="tinput">
       <input id="nameInput" placeholder="예: 방울토마토 1팩" autocomplete="off">
       <button class="pill tgo" id="btnTyped">입력</button>
@@ -388,13 +393,16 @@ $('btnTyped').addEventListener('click', ()=>{
   if(f){ selectFood(f.id,'직접 입력'); } else { toast('DB에 없어요. 가장 비슷한 걸 골라줘'); }
   suggest.classList.remove('on'); nameInput.value='';
 });
-$('btnYes').addEventListener('click', ()=>{ if(current){ renderResult(current); go('s-result'); } });
+$('btnYes').addEventListener('click', ()=>{
+  if(current){ renderResult(current); go('s-result'); }
+  else { toast('음식을 먼저 입력해줘'); setTimeout(()=>nameInput.focus(),300); }
+});
 
 /* ---- photo / album / barcode ---- */
 $('fileInput').addEventListener('change', e=>{
   const file=e.target.files[0]; if(!file) return;
   const rd=new FileReader();
-  rd.onload=()=>{ pendingPhoto=rd.result;
+  rd.onload=()=>{ pendingPhoto=rd.result; current=null;
     $('recogEmoji').textContent='📷'; $('recogName').textContent='사진을 올렸어요';
     $('recogSrc').textContent='아래에서 직접 입력해주세요';
     const old=document.querySelector('#recogCard .rp'); if(old) old.remove();
@@ -410,7 +418,10 @@ $('btnBarcode').addEventListener('click', ()=>{
   if(!code) return;
   const id=BARCODES[code.trim()];
   if(id){ selectFood(id,'바코드 인식'); }
-  else { toast('등록되지 않은 바코드예요'); pendingPhoto=null; go('s-confirm'); setTimeout(()=>nameInput.focus(),300); }
+  else { toast('등록되지 않은 바코드예요'); pendingPhoto=null; current=null;
+    $('recogEmoji').textContent='📷'; $('recogName').textContent='바코드를 못 찾았어요';
+    $('recogSrc').textContent='아래에서 직접 입력해주세요';
+    go('s-confirm'); setTimeout(()=>nameInput.focus(),300); }
 });
 
 /* ---- result ---- */
@@ -491,6 +502,12 @@ document.addEventListener('click', e=>{
 });
 
 /* ---- init ---- */
+(function(){
+  const picks=['avo','egg','salmon','chicken','greek','tofu','broc','kimchi','almond','cheddar','tomato','mackerel'];
+  const bgs=['var(--mint)','var(--lemon)','var(--pink)','var(--white)','var(--orange)','var(--lemon)'];
+  $('quickChips').innerHTML=picks.map((id,i)=>{ const f=byId(id); return f?`<button class="pill chip" data-id="${id}" style="background:${bgs[i%bgs.length]};transform:rotate(${i%2?1:-1}deg)"><span class="ce">${f.e}</span>${f.n}</button>`:''; }).join('');
+  $('quickChips').addEventListener('click',e=>{ const b=e.target.closest('.chip[data-id]'); if(b) selectFood(b.dataset.id,'빠른 선택'); });
+})();
 renderHistory();
 
 </script>
