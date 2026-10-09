@@ -1,1 +1,270 @@
-<!-- placeholder for scan/index.html, replaced by real upload -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLoCa Lens — Codex Resets Style</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --ink:#1e1b16; --canvas:#edf0f0; --mint:#7debbb; --teal:#14b8a6;
+    --lemon:#fde047; --pink:#f9a8d4; --orange:#fb923c; --white:#fffdf8;
+  }
+  body { font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif; background:var(--canvas); color:var(--ink); padding:36px; }
+  .board-t { text-align:center; margin-bottom:8px; }
+  .board-t h1 { font-size:30px; font-weight:900; letter-spacing:-.5px; }
+  .board-t h1 .hl { background:var(--lemon); padding:0 10px; border:2px solid var(--ink); border-radius:10px; display:inline-block; transform:rotate(-1.5deg); box-shadow:3px 3px 0 var(--ink); }
+  .board-t p { margin-top:12px; font-size:13px; color:#6b6257; font-family:ui-monospace,monospace; }
+  .phones { display:flex; gap:36px; justify-content:center; align-items:flex-start; margin-top:30px; flex-wrap:wrap; }
+  .phone { width:390px; height:844px; background:var(--white); border:3px solid var(--ink); border-radius:38px; overflow:hidden; position:relative; box-shadow:8px 8px 0 var(--ink); display:flex; flex-direction:column; flex-shrink:0; }
+  .cap { text-align:center; font-weight:800; font-size:14px; margin-top:14px; }
+  .cap small { display:block; font-family:ui-monospace,monospace; font-weight:400; font-size:11px; color:#8a8272; margin-top:3px; }
+  /* shared */
+  .hd { display:flex; align-items:center; justify-content:space-between; padding:18px 20px 12px; }
+  .logo { font-weight:900; font-size:19px; display:flex; align-items:center; gap:8px; }
+  .logo .av { width:32px; height:32px; border-radius:50%; background:var(--mint); border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:16px; }
+  .iconbtn { width:38px; height:38px; border-radius:50%; background:var(--white); border:2px solid var(--ink); box-shadow:2px 2px 0 var(--ink); display:flex; align-items:center; justify-content:center; font-size:16px; cursor:pointer; }
+  .pill { border:2px solid var(--ink); border-radius:999px; font-weight:800; box-shadow:3px 3px 0 var(--ink); cursor:pointer; }
+  .card { background:var(--white); border:2px solid var(--ink); border-radius:18px; box-shadow:4px 4px 0 var(--ink); }
+  .mono { font-family:ui-monospace,SFMono-Regular,monospace; }
+  .nav { margin-top:auto; display:flex; border-top:2px solid var(--ink); background:var(--white); }
+  .nav a { flex:1; text-align:center; padding:13px 0 15px; font-size:11px; font-weight:700; color:#8a8272; text-decoration:none; }
+  .nav a.on { color:var(--ink); }
+  .nav a .ni { font-size:19px; display:block; margin-bottom:2px; }
+  /* screen 1 */
+  .finder { margin:6px 20px 0; height:330px; border:3px solid var(--ink); border-radius:24px; background:#2b2620; position:relative; overflow:hidden; box-shadow:4px 4px 0 var(--ink); display:flex; align-items:center; justify-content:center; }
+  .finder .avo { font-size:110px; filter:saturate(1.2); }
+  .corner { position:absolute; width:26px; height:26px; border:4px solid var(--mint); }
+  .c1{top:14px;left:14px;border-right:0;border-bottom:0;border-radius:8px 0 0 0;}
+  .c2{top:14px;right:14px;border-left:0;border-bottom:0;border-radius:0 8px 0 0;}
+  .c3{bottom:14px;left:14px;border-right:0;border-top:0;border-radius:0 0 0 8px;}
+  .c4{bottom:14px;right:14px;border-left:0;border-top:0;border-radius:0 0 8px 0;}
+  .scanline { position:absolute; left:20px; right:20px; height:3px; background:var(--mint); border-radius:99px; animation:scan 2.4s ease-in-out infinite; box-shadow:0 0 12px var(--mint); }
+  @keyframes scan { 0%,100%{top:18%} 50%{top:78%} }
+  .bigcta { margin:22px 20px 0; background:var(--mint); padding:20px; text-align:center; font-size:20px; transform:rotate(-1deg); }
+  .bigcta small { display:block; font-size:12px; font-weight:600; margin-top:5px; }
+  .sec-h { margin:24px 20px 12px; font-weight:900; font-size:16px; display:flex; align-items:center; gap:8px; }
+  .sec-h .tag { font-size:10px; background:var(--ink); color:#fff; border-radius:99px; padding:3px 9px; font-family:ui-monospace,monospace; }
+  .hscroll { display:flex; gap:12px; padding:2px 20px 8px; overflow:hidden; }
+  .mini { min-width:148px; padding:14px; }
+  .mini.r1 { transform:rotate(-2deg); background:var(--lemon); }
+  .mini.r2 { transform:rotate(1.5deg); background:var(--pink); }
+  .mini .mf { font-size:34px; }
+  .mini .mn { font-weight:800; font-size:14px; margin-top:6px; }
+  .mini .mk { font-family:ui-monospace,monospace; font-size:11px; color:#5b5347; margin-top:3px; }
+  .mini .ok { display:inline-block; margin-top:8px; font-size:11px; font-weight:800; background:var(--ink); color:#fff; border-radius:99px; padding:3px 10px; }
+  /* screen 2 */
+  .verdict { margin:8px 20px 0; background:var(--mint); padding:13px; text-align:center; font-weight:900; font-size:17px; transform:rotate(1.2deg); }
+  .hero { margin:18px 20px 0; background:var(--lemon); padding:22px 18px; text-align:center; transform:rotate(-.8deg); }
+  .hero .hk { font-size:13px; font-weight:800; letter-spacing:1px; }
+  .hero .hv { font-family:ui-monospace,monospace; font-size:64px; font-weight:700; letter-spacing:-3px; margin:4px 0; }
+  .hero .hv small { font-size:22px; letter-spacing:0; }
+  .hero .hd2 { font-size:12px; color:#5b5347; font-weight:600; }
+  .food { margin:16px 20px 0; padding:16px 18px; display:flex; align-items:center; gap:14px; background:var(--white); }
+  .food .fi { font-size:44px; }
+  .food .fn { font-weight:900; font-size:17px; }
+  .food .fm { font-family:ui-monospace,monospace; font-size:11.5px; color:#6b6257; margin-top:3px; }
+  .nuts { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 20px 0; }
+  .nut { padding:13px 14px; }
+  .nut.n1{transform:rotate(-1.4deg);background:var(--pink);} .nut.n2{transform:rotate(1.2deg);background:var(--white);}
+  .nut.n3{transform:rotate(1deg);background:var(--orange);} .nut.n4{transform:rotate(-1deg);background:var(--white);}
+  .nut .nk { font-size:11.5px; font-weight:700; color:#5b5347; }
+  .nut .nv { font-family:ui-monospace,monospace; font-size:24px; font-weight:700; margin-top:2px; }
+  .nut .nv small{font-size:13px;}
+  .formula { margin:16px 20px 0; padding:12px 16px; background:var(--ink); color:#fff; border-radius:14px; font-family:ui-monospace,monospace; font-size:12px; text-align:center; }
+  .formula b { color:var(--mint); }
+  .row2 { display:flex; gap:12px; margin:18px 20px 0; }
+  .row2 button { flex:1; padding:15px; font-size:15px; }
+  .row2 .b1 { background:var(--white); }
+  .row2 .b2 { background:var(--teal); color:#fff; }
+  /* screen 3 */
+  .week { margin:8px 20px 0; background:var(--teal); color:#fff; padding:18px; transform:rotate(.8deg); }
+  .week .wk { font-size:12px; font-weight:800; letter-spacing:1px; opacity:.9; }
+  .week .wv { font-family:ui-monospace,monospace; font-size:44px; font-weight:700; letter-spacing:-2px; margin:4px 0; }
+  .week .wv small{font-size:16px;}
+  .week .wd { font-size:12px; font-weight:600; opacity:.9; }
+  .hlist { margin:6px 20px 0; display:flex; flex-direction:column; gap:12px; }
+  .hitem { padding:14px 16px; display:flex; align-items:center; gap:13px; }
+  .hitem.i1{transform:rotate(-.9deg);} .hitem.i2{transform:rotate(.7deg);background:#f3efe6;} .hitem.i3{transform:rotate(-.6deg);}
+  .hitem .hf { font-size:32px; }
+  .hitem .hn { font-weight:800; font-size:14.5px; }
+  .hitem .hm { font-family:ui-monospace,monospace; font-size:11px; color:#6b6257; margin-top:2px; }
+  .hitem .hs { margin-left:auto; text-align:right; }
+  .hitem .hs .n { font-family:ui-monospace,monospace; font-size:21px; font-weight:700; }
+  .badge { display:inline-block; font-size:10.5px; font-weight:800; border:2px solid var(--ink); border-radius:99px; padding:2px 9px; margin-top:4px; }
+  .b-ok { background:var(--mint); } .b-warn { background:var(--orange); }
+  .foot-note { text-align:center; font-family:ui-monospace,monospace; font-size:10.5px; color:#8a8272; margin:16px 0 4px; }
+  /* screen 4 */
+  .pair-t { margin:8px 20px 0; background:var(--pink); padding:14px 18px; text-align:center; font-weight:900; font-size:16px; transform:rotate(-1deg); }
+  .pair-t small { display:block; font-size:12px; font-weight:600; margin-top:4px; }
+  .pairs { display:flex; flex-direction:column; gap:12px; margin:14px 20px 0; }
+  .pair { padding:14px 16px; display:flex; align-items:center; gap:13px; }
+  .pair.p1{transform:rotate(.8deg);background:var(--white);} .pair.p2{transform:rotate(-.8deg);background:var(--lemon);}
+  .pair .pf { font-size:36px; }
+  .pair .pn { font-weight:900; font-size:15px; }
+  .pair .pw { font-size:12px; color:#5b5347; font-weight:600; margin-top:3px; }
+  .pair .pk { margin-left:auto; font-family:ui-monospace,monospace; font-size:11px; background:var(--ink); color:#fff; border-radius:99px; padding:4px 10px; white-space:nowrap; }
+  .recipe { margin:12px 20px 0; padding:16px; }
+  .recipe.r1{transform:rotate(-.7deg);background:var(--mint);} .recipe.r2{transform:rotate(.7deg);background:var(--white);}
+  .recipe .rn { font-weight:900; font-size:15.5px; }
+  .recipe .rm { font-family:ui-monospace,monospace; font-size:11.5px; color:#3f3a32; margin-top:5px; }
+  .recipe .ri { font-size:12.5px; font-weight:600; margin-top:8px; color:#3f3a32; }
+  .go { margin:16px 20px 0; background:var(--orange); padding:17px; text-align:center; font-size:16px; transform:rotate(-1deg); }
+  /* screen 1b: barcode */
+  .barcode { margin:12px 20px 0; background:var(--lemon); padding:15px; font-size:16px; transform:rotate(.8deg); width:calc(100% - 40px); }
+  .barcode small { display:block; font-size:12px; font-weight:600; margin-top:4px; }
+  .scanrow { display:flex; gap:10px; margin:12px 20px 0; }
+  .scanrow button { flex:1; padding:14px 6px; font-size:14px; min-width:0; }
+  .scanrow .alb { background:var(--pink); transform:rotate(-.8deg); }
+  .scanrow .bc { background:var(--lemon); transform:rotate(.8deg); }
+  .scanrow small { display:block; font-size:10.5px; font-weight:600; margin-top:3px; }
+  /* screen 2: confirm */
+  .confirm-t { margin:8px 20px 0; background:var(--lemon); padding:14px; text-align:center; font-weight:900; font-size:19px; transform:rotate(-1deg); }
+  .confirm-t small { display:block; font-size:12px; font-weight:600; margin-top:5px; }
+  .recog { margin:16px 20px 0; padding:26px 18px; text-align:center; transform:rotate(.7deg); }
+  .recog .rf { font-size:74px; }
+  .recog .rn2 { font-weight:900; font-size:25px; margin-top:8px; }
+  .recog .rm { font-size:12px; color:#6b6257; margin-top:5px; }
+  .yes { margin:18px 20px 0; background:var(--mint); padding:18px; font-size:18px; width:calc(100% - 40px); transform:rotate(-.8deg); }
+  .retake { margin:12px 20px 0; background:var(--white); padding:14px; font-size:15px; width:calc(100% - 40px); }
+  .tinput { display:flex; gap:10px; margin:6px 20px 0; }
+  .tinput input { flex:1; border:2px solid var(--ink); border-radius:14px; padding:13px 15px; font-size:14px; font-family:inherit; box-shadow:3px 3px 0 var(--ink); outline:none; background:var(--white); min-width:0; }
+  .tinput .tgo { background:var(--pink); padding:13px 24px; font-size:14px; white-space:nowrap; }
+</style>
+</head>
+<body>
+  <div class="board-t">
+    <h1><span class="hl">KLoCa Lens</span> — AI 쇼핑 도우미</h1>
+    <p>Codex Resets Design · Mint Lemon Pink variant · v1.0.0</p>
+  </div>
+  <div class="phones">
+
+    <!-- SCREEN 1 : SCAN -->
+    <div>
+    <div class="phone">
+      <div class="hd"><div class="logo"><span class="av">🥑</span>KLoCa Lens</div><div class="iconbtn">⚙</div></div>
+      <div class="finder">
+        <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+        <span class="avo">🥑</span>
+        <div class="scanline"></div>
+      </div>
+      <button class="pill bigcta">📷 사진 찍기<small>장보다가 궁금하면 바로 찍으세요</small></button>
+      <div class="scanrow">
+        <button class="pill alb">🖼️ 앨범에서<small>찍어둔 사진 올리기</small></button>
+        <button class="pill bc">📊 바코드 스캔<small>가공식품은 바코드</small></button>
+      </div>
+      <div class="sec-h">최근 스캔 <span class="tag">3</span></div>
+      <div class="hscroll">
+        <div class="card mini r1"><div class="mf">🥑</div><div class="mn">아보카도</div><div class="mk">순탄수 2g</div><span class="ok">KETO OK</span></div>
+        <div class="card mini r2"><div class="mf">🍦</div><div class="mn">그릭요거트</div><div class="mk">순탄수 4g</div><span class="ok">KETO OK</span></div>
+      </div>
+      <nav class="nav">
+        <a href="#" class="on"><span class="ni">◧</span>홈</a><a href="#"><span class="ni">◎</span>스캔</a><a href="#"><span class="ni">▤</span>기록</a><a href="#"><span class="ni">⚙</span>설정</a>
+      </nav>
+    </div>
+    <div class="cap">01 · 스캔 홈<small>SCREEN-01 · scan</small></div>
+    </div>
+
+    <!-- SCREEN 2 : CONFIRM -->
+    <div>
+    <div class="phone">
+      <div class="hd"><div class="logo"><span class="av">🥑</span>KLoCa Lens</div><div class="iconbtn">✕</div></div>
+      <div class="card confirm-t">이게 맞나요?<small>인식된 재료가 맞는지 확인해주세요</small></div>
+      <div class="card recog">
+        <div class="rf">🥑</div>
+        <div class="rn2">아보카도</div>
+        <div class="rm mono">사진 인식 · 신뢰도 94%</div>
+      </div>
+      <button class="pill yes">맞아요 →</button>
+      <button class="pill retake">📷 다시 찍기</button>
+      <div class="sec-h">아니면 직접 입력</div>
+      <div class="tinput">
+        <input placeholder="예: 방울토마토 1팩">
+        <button class="pill tgo">입력</button>
+      </div>
+      <nav class="nav">
+        <a href="#"><span class="ni">◧</span>홈</a><a href="#" class="on"><span class="ni">◎</span>스캔</a><a href="#"><span class="ni">▤</span>기록</a><a href="#"><span class="ni">⚙</span>설정</a>
+      </nav>
+    </div>
+    <div class="cap">02 · 인식 확인<small>SCREEN-02 · confirm</small></div>
+    </div>
+
+    <!-- SCREEN 2 : RESULT -->
+    <div>
+    <div class="phone">
+      <div class="hd"><div class="logo"><span class="av">🥑</span>KLoCa Lens</div><div class="iconbtn">✕</div></div>
+      <div class="card verdict">✅ KETO OK — 안심하고 담으세요</div>
+      <div class="card hero">
+        <div class="hk">순탄수화물 (NET CARBS)</div>
+        <div class="hv">2<small>g</small></div>
+        <div class="hd2">100g 기준 · 키토 적합</div>
+      </div>
+      <div class="card food">
+        <div class="fi">🥑</div>
+        <div><div class="fn">아보카도 1개</div><div class="fm">2026-10-10 02:47 · 사진 인식</div></div>
+      </div>
+      <div class="nuts">
+        <div class="card nut n1"><div class="nk">칼로리</div><div class="nv">160<small>kcal</small></div></div>
+        <div class="card nut n2"><div class="nk">탄수화물</div><div class="nv">9<small>g</small></div></div>
+        <div class="card nut n3"><div class="nk">식이섬유</div><div class="nv">7<small>g</small></div></div>
+        <div class="card nut n4"><div class="nk">지방</div><div class="nv">15<small>g</small></div></div>
+      </div>
+      <div class="formula">순탄수화물 = 탄수화물 <b>9g</b> − 식이섬유 <b>7g</b></div>
+      <div class="row2">
+        <button class="pill b1">다시 찍기</button>
+        <button class="pill b2">기록 저장</button>
+      </div>
+      <nav class="nav">
+        <a href="#"><span class="ni">◧</span>홈</a><a href="#" class="on"><span class="ni">◎</span>스캔</a><a href="#"><span class="ni">▤</span>기록</a><a href="#"><span class="ni">⚙</span>설정</a>
+      </nav>
+    </div>
+    <div class="cap">03 · 인식 결과<small>SCREEN-03 · result</small></div>
+    </div>
+
+    <!-- SCREEN 3 : HISTORY -->
+    <div>
+    <div class="phone">
+      <div class="hd"><div class="logo"><span class="av">🥑</span>KLoCa Lens</div><div class="iconbtn">⚙</div></div>
+      <div class="card week">
+        <div class="wk">이번 주 평균 순탄수화물</div>
+        <div class="wv">4.2<small>g /회</small></div>
+        <div class="wd">총 12회 스캔 · 키토 유지 중 🥑</div>
+      </div>
+      <div class="sec-h">스캔 기록 <span class="tag">12</span></div>
+      <div class="hlist">
+        <div class="card hitem i1"><div class="hf">🥑</div><div><div class="hn">아보카도</div><div class="hm">10-10 02:47</div></div><div class="hs"><div class="n">2g</div><span class="badge b-ok">KETO OK</span></div></div>
+        <div class="card hitem i2"><div class="hf">🍦</div><div><div class="hn">그릭요거트</div><div class="hm">10-09 18:22</div></div><div class="hs"><div class="n">4g</div><span class="badge b-ok">KETO OK</span></div></div>
+        <div class="card hitem i3"><div class="hf">🍞</div><div><div class="hn">식빵</div><div class="hm">10-09 09:15</div></div><div class="hs"><div class="n">24g</div><span class="badge b-warn">주의</span></div></div>
+      </div>
+      <div class="foot-note">kloca lens · v0.1</div>
+      <nav class="nav">
+        <a href="#"><span class="ni">◧</span>홈</a><a href="#"><span class="ni">◎</span>스캔</a><a href="#" class="on"><span class="ni">▤</span>기록</a><a href="#"><span class="ni">⚙</span>설정</a>
+      </nav>
+    </div>
+    <div class="cap">04 · 스캔 기록<small>SCREEN-04 · history</small></div>
+    </div>
+
+    <!-- SCREEN 4 : PAIRINGS + RECIPES -->
+    <div>
+    <div class="phone">
+      <div class="hd"><div class="logo"><span class="av">🥑</span>KLoCa Lens</div><div class="iconbtn">✕</div></div>
+      <div class="card pair-t">🥑 아보카도와 찰떡궁합<small>함께 먹으면 영양이 보충돼요</small></div>
+      <div class="pairs">
+        <div class="card pair p1"><div class="pf">🍣</div><div><div class="pn">연어</div><div class="pw">아보카도에 부족한 단백질 보충 · 오메가3 시너지</div></div><div class="pk">단백질 +20g</div></div>
+        <div class="card pair p2"><div class="pf">🥚</div><div><div class="pn">달걀</div><div class="pw">포만감 업 · 아침 조합으로 최고</div></div><div class="pk">단백질 +6g</div></div>
+      </div>
+      <div class="sec-h">이 재료들로 만드는 레시피 <span class="tag">2</span></div>
+      <div class="card recipe r1"><div class="rn">🥗 아보카도 연어 샐러드</div><div class="rm">10분 · 순탄수 3g · 320kcal</div><div class="ri">아보카도 1/2 + 연어 100g + 올리브오일 · 레몬즙</div></div>
+      <div style="height:12px"></div>
+      <div class="card recipe r2"><div class="rn">🍳 아보카도 에그 보트</div><div class="rm">15분 · 순탄수 2g · 280kcal</div><div class="ri">아보카도 반쪽에 달걀을 깨 넣고 오븐에</div></div>
+      <button class="pill go">🛒 조합 장바구니에 담기</button>
+      <nav class="nav">
+        <a href="#"><span class="ni">◧</span>홈</a><a href="#" class="on"><span class="ni">◎</span>스캔</a><a href="#"><span class="ni">▤</span>기록</a><a href="#"><span class="ni">⚙</span>설정</a>
+      </nav>
+    </div>
+    <div class="cap">05 · 조합 & 레시피<small>SCREEN-05 · pairings</small></div>
+    </div>
+
+  </div>
+</body>
+</html>
