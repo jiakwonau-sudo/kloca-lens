@@ -53,7 +53,7 @@
   .confirm-t { margin:6px 18px 0; background:var(--lemon); padding:13px; text-align:center; font-weight:900; font-size:18px; transform:rotate(-1deg); }
   .confirm-t small { display:block; font-size:12px; font-weight:600; margin-top:4px; }
   .recog { margin:14px 18px 0; padding:22px 16px; text-align:center; transform:rotate(.7deg); }
-  .recog .rf { font-size:70px; } .recog .rn2 { font-weight:900; font-size:24px; margin-top:8px; }
+  .recog .rf { font-size:70px; } .recog .rn2 { font-weight:900; font-size:31px; margin-top:8px; letter-spacing:-.5px; }
   .recog .rm { font-size:12px; color:#6b6257; margin-top:5px; }
   .recog img.rp { width:100%; height:150px; object-fit:cover; border:2px solid var(--ink); border-radius:12px; margin-bottom:8px; }
   .yes { margin:16px 18px 0; background:var(--mint); padding:17px; font-size:17px; width:calc(100% - 36px); transform:rotate(-.8deg); }
@@ -78,7 +78,7 @@
   .hero .hv small { font-size:20px; letter-spacing:0; }
   .hero .hd2 { font-size:12px; color:#5b5347; font-weight:600; }
   .food { margin:14px 18px 0; padding:14px 16px; display:flex; align-items:center; gap:13px; }
-  .food .fi { font-size:40px; } .food .fn { font-weight:900; font-size:16px; }
+  .food .fi { font-size:40px; } .food .fn { font-weight:900; font-size:20px; }
   .food .fm { font-family:ui-monospace,monospace; font-size:11px; color:#6b6257; margin-top:3px; }
   .nuts { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:14px 18px 0; }
   .nut { padding:11px 10px; }
@@ -165,7 +165,7 @@
       <button class="pill tgo" id="btnTyped">입력</button>
       <div class="suggest" id="suggest"></div>
     </div>
-    <div class="note">사진 자동 인식은 준비 중 — 지금은 직접 입력해줘</div>
+    <div class="note">사진을 찍으면 자동으로 인식해요 📷</div>
   </section>
 
   <!-- 3 RESULT -->
@@ -247,6 +247,8 @@ const FOODS = [
 {id:'mush1',n:'양송이버섯',e:'🍄',k:22,c:3.3,df:1,ft:0.3,p:3.1,s:'100g',tags:['fiber','protein']},
 {id:'mush2',n:'새송이버섯',e:'🍄',k:35,c:6,df:2.5,ft:0.5,p:2.5,s:'100g',tags:['fiber']},
 {id:'paprika',n:'파프리카',e:'🫑',k:31,c:6,df:2.1,ft:0.3,p:1,s:'100g',tags:['fiber']},
+{id:'carrot',n:'당근',e:'🥕',k:41,c:9.6,df:2.8,ft:0.2,p:0.9,s:'1개(60g)',tags:['fiber']},
+{id:'onion',n:'양파',e:'🧅',k:40,c:9.3,df:1.7,ft:0.1,p:1.1,s:'1/2개(100g)',tags:['fiber']},
 {id:'zucchini',n:'애호박',e:'🥒',k:17,c:3.1,df:1,ft:0.3,p:1.2,s:'100g',tags:['fiber']},
 {id:'eggplant',n:'가지',e:'🍆',k:25,c:5.9,df:3,ft:0.2,p:1,s:'100g',tags:['fiber']},
 {id:'cabbage',n:'양배추',e:'🥬',k:25,c:5.8,df:2.5,ft:0.1,p:1.3,s:'100g',tags:['fiber']},
@@ -339,11 +341,29 @@ function pairings(f){
 }
 
 /* ============ ONLINE/AI HOOK (only when truly needed) ============
-   사진 자동 인식·미등록 바코드 조회만 여기서 온라인 호출.
-   지금은 스텁 — 키·엔드포인트 연결 전까지 로컬 경로로 동작. */
-async function recognizePhotoOnline(dataUrl){
-  // TODO: Claude vision API 연결 시점에 구현
-  return null;
+   사진 자동 인식만 여기서 온라인 호출 — Gemini 직접 호출.
+   DEPLOY 주의: __GEMINI_KEY__ 는 배포 시 브라우저 작업이 실제 키로 치환한다.
+   로컬 파일에는 키를 절대 넣지 말 것. 키는 HTTP 리퍼러 제한으로
+   https://jiakwonau-sudo.github.io 에서만 동작하게 잠가 둔다 (무료 티어). */
+const GEMINI_KEY = '__GEMINI_KEY__';
+async function recognizePhotoOnline(dataUrl, mime){
+  if(!GEMINI_KEY || GEMINI_KEY.indexOf('__GEMINI_KEY__')===0) return null;
+  try {
+    const b64 = dataUrl.split(',')[1];
+    const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+GEMINI_KEY, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        contents:[{ parts:[
+          { text:'이 사진 속 메인 음식 재료를 한국어로 한 단어로만 답해. 예: 아보카도 / 달걀 / 연어. 음식이 아니면 "없음".' },
+          { inline_data:{ mime_type: mime||'image/jpeg', data: b64 } }
+        ]}],
+        generationConfig:{ maxOutputTokens:20, temperature:0 }
+      })
+    });
+    const j = await r.json();
+    const t = (j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts && j.candidates[0].content.parts[0] && j.candidates[0].content.parts[0].text || '').trim();
+    return (t && t!=='없음') ? t : null;
+  } catch(e){ return null; }
 }
 const BARCODES = {}; // 바코드→foodId 매핑 (확보되는 대로 추가)
 
@@ -402,12 +422,32 @@ $('btnYes').addEventListener('click', ()=>{
 $('fileInput').addEventListener('change', e=>{
   const file=e.target.files[0]; if(!file) return;
   const rd=new FileReader();
-  rd.onload=()=>{ pendingPhoto=rd.result; current=null;
-    $('recogEmoji').textContent='📷'; $('recogName').textContent='사진을 올렸어요';
-    $('recogSrc').textContent='아래에서 직접 입력해주세요';
-    const old=document.querySelector('#recogCard .rp'); if(old) old.remove();
-    const img=document.createElement('img'); img.className='rp'; img.src=pendingPhoto; $('recogCard').prepend(img);
-    go('s-confirm'); setTimeout(()=>nameInput.focus(),300);
+  rd.onload=()=>{
+    const img=new Image();
+    img.onload=()=>{
+      const max=1024, sc=Math.min(1, max/Math.max(img.width,img.height));
+      const cv=document.createElement('canvas');
+      cv.width=Math.round(img.width*sc); cv.height=Math.round(img.height*sc);
+      cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+      const dataUrl=cv.toDataURL('image/jpeg',0.82);
+      pendingPhoto=dataUrl; current=null;
+      $('recogEmoji').textContent='🔍'; $('recogName').textContent='인식 중...';
+      $('recogSrc').textContent='사진을 분석하고 있어요';
+      const old=document.querySelector('#recogCard .rp'); if(old) old.remove();
+      const pv=document.createElement('img'); pv.className='rp'; pv.src=dataUrl; $('recogCard').prepend(pv);
+      go('s-confirm');
+      recognizePhotoOnline(dataUrl,'image/jpeg').then(name=>{
+        if(name){
+          const f=FOODS.find(f=>f.n===name)||FOODS.filter(f=>f.n.includes(name)||name.includes(f.n))[0];
+          if(f){ selectFood(f.id,'사진 인식'); toast('인식됨: '+f.n); }
+          else { $('recogEmoji').textContent='📷'; $('recogName').textContent=name; $('recogSrc').textContent='DB에 없어요. 아래에서 골라주세요'; }
+        } else {
+          $('recogEmoji').textContent='📷'; $('recogName').textContent='인식에 실패했어요';
+          $('recogSrc').textContent='아래에서 직접 입력해주세요';
+        }
+      });
+    };
+    img.src=rd.result;
   };
   rd.readAsDataURL(file); e.target.value='';
 });
