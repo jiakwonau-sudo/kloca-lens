@@ -1,0 +1,95 @@
+{
+  "scope": "Node component and state regression tests; browser reconciliation/layout unverified",
+  "total": 22,
+  "passed": 22,
+  "results": [
+    {
+      "name": "Original malformed historical entry reproduces a render TypeError",
+      "status": "PASS"
+    },
+    {
+      "name": "Original non-array history reproduces an array-method failure",
+      "status": "PASS"
+    },
+    {
+      "name": "Fixed malformed history is isolated and exact raw input is preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "Fixed non-array and invalid JSON history recover without throwing",
+      "status": "PASS"
+    },
+    {
+      "name": "Valid historical records retain every field and original totals",
+      "status": "PASS"
+    },
+    {
+      "name": "Unknown table food ID is isolated before completeMeals can dereference it",
+      "status": "PASS"
+    },
+    {
+      "name": "Real add-to-table / completeMeals / history calculation remains intact",
+      "status": "PASS"
+    },
+    {
+      "name": "Invalid profile targets and list fields restore valid defaults and preserve original",
+      "status": "PASS"
+    },
+    {
+      "name": "Existing user-entered API key and valid custom targets are preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "A valid zero carbohydrate target is retained without creating a false recovery warning",
+      "status": "PASS"
+    },
+    {
+      "name": "Built-in API key is empty; no paid external request runs in these tests",
+      "status": "PASS"
+    },
+    {
+      "name": "Blocked storage no longer prevents initial app or widget rendering",
+      "status": "PASS"
+    },
+    {
+      "name": "Failed backup cannot overwrite the original malformed value",
+      "status": "PASS"
+    },
+    {
+      "name": "Existing first backup is preserved during another malformed-input recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "Existing JSON backup export now includes exact malformed-data recovery copies",
+      "status": "PASS"
+    },
+    {
+      "name": "Home contains the React scan hero and no home dashboard",
+      "status": "PASS"
+    },
+    {
+      "name": "Hero and photo button use the real scan modal action",
+      "status": "PASS"
+    },
+    {
+      "name": "Hero and food collapse remain React state and persist the existing preference keys",
+      "status": "PASS"
+    },
+    {
+      "name": "Widget records, dashboard and nutritionist dispatch correct destinations",
+      "status": "PASS"
+    },
+    {
+      "name": "Repeated tab switches do not leave scan hero on records/dashboard",
+      "status": "PASS"
+    },
+    {
+      "name": "A failing view renders recovery controls and leaves the header/widget reachable",
+      "status": "PASS"
+    },
+    {
+      "name": "HTML references only existing assets and has no imperative hero/mutation helper",
+      "status": "PASS"
+    }
+  ]
+}

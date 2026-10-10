@@ -1,0 +1,72 @@
+{
+  "version": "navigation-fix-v1",
+  "date": "2026-10-10",
+  "verification": "PARTIAL: browser check pending",
+  "files": [
+    {
+      "path": "DEBUG_REPORT.md",
+      "bytes": 6318,
+      "sha256": "9a57336da0039a5da0e0634cd61712f3c4e68ce9148369ad9208852cd3264dc2"
+    },
+    {
+      "path": "MUSE_HANDOFF.md",
+      "bytes": 2975,
+      "sha256": "2e521ce82e51dcc596bafdf6261df7f93650308808f112e0c8a90a06fc05b4aa"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3292,
+      "sha256": "675dfe4ba36c25b52233a2bbb0707f75f270bc8a0cea4c9f263b57d555d2c624"
+    },
+    {
+      "path": "muse-version/assets/index-CQXCXyQ1.css",
+      "bytes": 43940,
+      "sha256": "6b0f1bc0691d8390e7de3edf19463c0e96687af6c5880df526fda85d7cac9b06"
+    },
+    {
+      "path": "muse-version/assets/index-navigation-fix-v1.js",
+      "bytes": 378958,
+      "sha256": "3b3a663b38f84ccaadbe55c0ab0dea13ae645a04879cbbd56606e24b464f725c"
+    },
+    {
+      "path": "muse-version/assets/logo-lens.webp",
+      "bytes": 76282,
+      "sha256": "1e4b48347262746459265df05e79d37ea9f2d1bb426a10e9d9e14a301136bbe6"
+    },
+    {
+      "path": "muse-version/assets/muse.css",
+      "bytes": 5581,
+      "sha256": "61b3b628090d8fedb6fb3628adde6481788c0f7d04d5b18ce7e6a194d125656f"
+    },
+    {
+      "path": "muse-version/assets/reskin.css",
+      "bytes": 8592,
+      "sha256": "141cb5639881b2bfb14a81e7c5a5656d758741f29277543bf27ec4db591ae0b5"
+    },
+    {
+      "path": "muse-version/index.html",
+      "bytes": 1224,
+      "sha256": "081fb3ce76619f348f83412256e95bef4ec09fa3f0b52fd0ccacd81bb232de45"
+    },
+    {
+      "path": "qa/test-results.json",
+      "bytes": 2872,
+      "sha256": "4e63e704bf045df037e8cffe21dd79d71103327cb40e2cc3601c343965dd1613"
+    },
+    {
+      "path": "src/build-fix.cjs",
+      "bytes": 6897,
+      "sha256": "c8c0fb9a184aa9182ec10e2b49087b091dac639cb8b0b314794ce1d13b240870"
+    },
+    {
+      "path": "src/navigation-fix.js",
+      "bytes": 9979,
+      "sha256": "246b38a38548990567be02edc17e89312edc8733d68fb99f3832c4dbd67ec125"
+    },
+    {
+      "path": "src/test-navigation.cjs",
+      "bytes": 14233,
+      "sha256": "cd67f9b8dc44273316ed5122009ed7a14b930d1d160f235568afa095609629b1"
+    }
+  ]
+}
