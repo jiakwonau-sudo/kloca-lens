@@ -2,7 +2,7 @@
    Runs before the main bundle. Key is HTTP-referrer restricted. */
 (function () {
   try {
-    var KEY = "AIzaSyBoMGLjJA-M2mc6un43Sefc-sVb8QiOFLo";
+    var KEY = "";
     var raw = localStorage.getItem("nutrilens.profile");
     if (raw) {
       var p = JSON.parse(raw);
