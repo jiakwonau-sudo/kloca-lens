@@ -1,0 +1,57 @@
+{
+  "mode": "Playwright set_content on about:blank; real UI clicks/photo FileReader, no network and no provider credentials",
+  "results": [
+    {
+      "case": "Boot and safe preview label",
+      "pass": true,
+      "detail": "KLoCa Lens v2 · SAFE PREVIEW"
+    },
+    {
+      "case": "No frontend provider key",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "case": "Scan start screen",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "case": "Photo upload preview without remote AI",
+      "pass": true,
+      "detail": "{'active': ['s-confirm'], 'name': 'AI 자동 인식이 미연결입니다', 'source': '아래에서 직접 입력하거나 선택하세요', 'shownImage': True}"
+    },
+    {
+      "case": "No third-party AI request",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "case": "Manual food matching returns candidates",
+      "pass": true,
+      "detail": "1"
+    },
+    {
+      "case": "Manual selection has correct food",
+      "pass": true,
+      "detail": "직접 입력"
+    },
+    {
+      "case": "Confirm shows local nutrition",
+      "pass": true,
+      "detail": "s-result netcarb=2"
+    },
+    {
+      "case": "History saved locally",
+      "pass": true,
+      "detail": "{'history': '[{\"id\":\"avo\",\"t\":1791725814605}]', 'cart': None}"
+    },
+    {
+      "case": "No JS runtime errors",
+      "pass": true,
+      "detail": "[]"
+    }
+  ],
+  "pass": 10,
+  "fail": 0
+}
