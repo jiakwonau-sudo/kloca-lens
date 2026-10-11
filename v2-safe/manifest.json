@@ -1,0 +1,17 @@
+{
+  "build": "Lens v2 SAFE PREVIEW",
+  "source_sha256": "1ba0863d402bbd01b88181bea8a08d9d14751085adc7e4cf7afb0a2e8f5ed923",
+  "index_sha256": "92ccf0920915649ee329effa7cf1cd40b66f7ca11fcffcd169d3befd255e482d",
+  "files": [
+    "index.html",
+    "shot-3x2.png",
+    "shot-carrot.png",
+    "shot-chips.png",
+    "shot-name.png",
+    "shot-scan.png",
+    "shot-vision.png"
+  ],
+  "no_public_gemini_key": true,
+  "vision_enabled": false,
+  "external_paid_api_calls": false
+}
